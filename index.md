@@ -11,17 +11,18 @@ This start guide shows you how to estimate polyphenol intake using the FooDB dat
 Example ASA24 data, borrowed from the DietDiveR Repository[^2], is provided for you to test. We encourage you to check out this file to better understand the input data required for the pipeline
 
 ## Get started 
-### 1. Download the entire repository (by bash below or clicking) [here](https://github.com/SWi1/polyphenol_pipeline/archive/refs/heads/main.zip). 
+### 1. Download the entire repository, using the terminal or downloading directly [here](https://github.com/SWi1/polyphenol_pipeline/archive/refs/heads/main.zip). 
 The repository contains files and scripts used in the tutorial.
 
 ``` 
 # bash
 git clone https://github.com/username/repo.git
 ```
-###  2. Create and save a new R file into the downloaded repository folder. 
+
+###  2. In RStudio, create and save a new R file into the downloaded repository folder. 
 Don't save it in any subdirectories.
 
-### 3. Set your working directory to the downloaded repository folder.
+### 3. Set working directory to the repository folder.
 
 ### 4. In your R script, copy and run the code below to load `estimate_polyphenols` and `calculate_DII` functions.
 
