@@ -22,7 +22,7 @@ This is a tutorial to help users access NHANES dietary data for
 downstream utilization in the polyphenol estimation pipeline. The R
 scripts below walk you through how to directly download one cycle of
 NHANES dietary data from the CDC website and perform several diet
-cleaning steps. Users can directly download this code [here](link) and
+cleaning steps. Users can directly download this code [here](https://github.com/SWi1/polyphenol_pipeline/blob/main/scripts/preparing_diet_data_NHANES.Rmd) and
 generate the same outputs by running the R code in RStudio.
 
 **About NHANES**  
