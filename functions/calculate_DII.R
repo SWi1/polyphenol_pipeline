@@ -14,13 +14,13 @@ calculate_DII = function(output_type = c("html", "md")) {
   
   # The Polyphenol Estimation Pipeline Needs to run first.
   # Output from this pipeline kicks off the DII calculation scripts
-  starting_file = "outputs/Input_Disaggregated_mapped.csv.bz2"
+  starting_file = "outputs/Recall_Disaggregated_mapped.csv.bz2"
   
   # Check if it was by confirming Disaggregated Dietary Data File exists
   if (!file.exists(starting_file)) {
     stop("\n Please run the polyphenol estimation pipeline before running the DII calculation.")
   } else {
-    message("Checkpoint - Polyphenol estimation pipeline was run.\n")
+    message("Polyphenol estimation pipeline was run.\n")
   }
   
   # List of DII scripts in order
@@ -32,7 +32,6 @@ calculate_DII = function(output_type = c("html", "md")) {
   # Step 3: Calculate Intake of Foods and Food Components
   "DII_STEP3_Food.Rmd",
   # Step 4: Calculate the Dietary Inflammatory Index
-  # DII by Shivappa et al 2013
   "DII_STEP4_DII_Calculation.Rmd"))
   
   # Map output_type to function
@@ -40,13 +39,11 @@ calculate_DII = function(output_type = c("html", "md")) {
                        html = run_create_html_report,
                        md   = run_create_md_report)
   
-  
-  
   # Check if reports directory exists, and if not, Create one
   if (!dir.exists("reports")) dir.create("reports", recursive = TRUE)
   
   # Message saying which report is getting made
-  message("Pipeline will now start and generate ", output_type, " reports.\n")
+  message("DII calculation will now begin and generate ", output_type, " reports.\n")
   
   # Record start time
   start_time = Sys.time()

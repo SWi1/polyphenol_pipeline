@@ -8,30 +8,28 @@ has_toc: true
 
 - [Calculate Total Polypenol
   Intakes](#calculate-total-polypenol-intakes)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPTS](#scripts)
-- [Total daily Polyphenol Intake Numbers BY
-  RECALL](#total-daily-polyphenol-intake-numbers-by-recall)
-- [Total daily Polyphenol Intake Numbers AVERAGE FOR
-  SUBJECT](#total-daily-polyphenol-intake-numbers-average-for-subject)
+  - [Total daily Polyphenol Intake Numbers BY
+    RECALL](#total-daily-polyphenol-intake-numbers-by-recall)
+  - [Total daily Polyphenol Intake Numbers AVERAGE FOR
+    SUBJECT](#total-daily-polyphenol-intake-numbers-average-for-subject)
 
 ## Calculate Total Polypenol Intakes
 
 This script calculates total polyphenol intake (mg, mg/1000kcal) for
 provided dietary data.
 
-### INPUTS
+#### INPUTS
 
-- **Input_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
+- **Recall_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
   data, mapped to FooDB polyphenol content, at the compound-level
-- **Input_total_nutrients.csv** - total daily nutrient data to go with
+- **Recall_total_nutrients.csv** - total daily nutrient data to go with
   dietary data.
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_FooDB_polyphenol_content_total_by_subject.csv**
-- **Input_FooDB_polyphenol_content_total_by_recall.csv**
+- **summary_total_intake_by_subject.csv**
+- **summary_total_intake_by_recall.csv**
 
 ## SCRIPTS
 
@@ -40,14 +38,14 @@ library(tidyverse)
 ```
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Load dietary data mapped to polyphenol content
-input_polyphenol_content = vroom::vroom('outputs/Input_FooDB_polyphenol_content.csv.bz2',
+input_polyphenol_content = vroom::vroom('outputs/Recall_FooDB_polyphenol_content.csv.bz2',
                                         show_col_types = FALSE)
 
-input_kcal = vroom::vroom('outputs/Input_total_nutrients.csv', show_col_types = FALSE) %>%
+input_kcal = vroom::vroom('outputs/Recall_total_nutrients.csv', show_col_types = FALSE) %>%
   # Ensure consistent KCAL naming whether ASA24 or NHANES
   rename_with(~ "Total_KCAL", .cols = any_of(c("Total_KCAL", # Specific to ASA24
                                                "Total_DRXIKCAL"))) %>%  # Specific to NHANES
@@ -59,7 +57,7 @@ input_polyphenol_kcal = left_join(input_polyphenol_content, input_kcal)
 
     ## Joining with `by = join_by(subject, RecallNo)`
 
-## Total daily Polyphenol Intake Numbers BY RECALL
+### Total daily Polyphenol Intake Numbers BY RECALL
 
 ``` r
 content_by_recall = input_polyphenol_kcal %>%
@@ -73,10 +71,10 @@ content_by_recall = input_polyphenol_kcal %>%
   select(c(subject, RecallNo, pp_recallsum_mg, Total_KCAL, pp_recallsum_mg1000kcal))
 
 # Write Output
-vroom::vroom_write(content_by_recall, "outputs/Input_FooDB_polyphenol_content_total_by_recall.csv")
+vroom::vroom_write(content_by_recall, "outputs/summary_total_intake_by_recall.csv", delim = ",")
 ```
 
-## Total daily Polyphenol Intake Numbers AVERAGE FOR SUBJECT
+### Total daily Polyphenol Intake Numbers AVERAGE FOR SUBJECT
 
 ``` r
 content_by_subject = content_by_recall %>%
@@ -91,5 +89,5 @@ content_by_subject = content_by_recall %>%
   select(c(subject, pp_average_mg, kcal_average, pp_average_mg_1000kcal))
 
 # Write Output
-vroom::vroom_write(content_by_subject, "outputs/Input_FooDB_polyphenol_content_total_by_subject.csv")
+vroom::vroom_write(content_by_subject, "outputs/summary_total_intake_by_subject.csv", delim = ",")
 ```

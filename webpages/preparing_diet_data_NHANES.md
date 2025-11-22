@@ -7,8 +7,6 @@ has_toc: true
 ---
 
 - [Prepare NHANES diet recall data](#prepare-nhanes-diet-recall-data)
-  - [INPUT](#input)
-  - [OUTPUT](#output)
 - [SCRIPTS](#scripts)
   - [Extract 2021-2023 NHANES Data from CDC
     website](#extract-2021-2023-nhanes-data-from-cdc-website)
@@ -22,8 +20,9 @@ This is a tutorial to help users access NHANES dietary data for
 downstream utilization in the polyphenol estimation pipeline. The R
 scripts below walk you through how to directly download one cycle of
 NHANES dietary data from the CDC website and perform several diet
-cleaning steps. Users can directly download this code [here](https://github.com/SWi1/polyphenol_pipeline/blob/main/scripts/preparing_diet_data_NHANES.Rmd) and
-generate the same outputs by running the R code in RStudio.
+cleaning steps. Users can directly download this code
+[here](https://github.com/SWi1/polyphenol_pipeline/blob/main/scripts/preparing_diet_data_NHANES.Rmd)
+and generate the same outputs by running the R code in RStudio.
 
 **About NHANES**  
 NHANES is a nationally representative sample of non-institutionalized
@@ -38,20 +37,25 @@ Users interested in analyzing multiple cycles of NHANES dietary data
 should utilize cross-walks to harmonize changes in FNDDS foods and
 beverages over different cycles. Crosswalk information is available in
 the ‘Documentation’ File for each FNDDS release. Visit the USDA Food
-Survey Research Group for more information [here](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/food-surveys-research-group/docs/fndds-download-databases/).
+Survey Research Group for more information
+[here](https://www.ars.usda.gov/northeast-area/beltsville-md-bhnrc/beltsville-human-nutrition-research-center/food-surveys-research-group/docs/fndds-download-databases/).
 
-### INPUT
+#### INPUT
 
 1.  **2021 - 2023 Demographic Data**
-    - [Official Documentation & Codebook](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DEMO_L.htm)
+    - [Official Documentation &
+      Codebook](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DEMO_L.htm)
 2.  **2021 - 2023 Dietary Interview** - Featuring two separate diet
     recalls
-    - [Official Documentation & Codebook- First Day](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DR1TOT_L.htm)
-    - [Official Documentation & Codebook- Second Day](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DR2TOT_L.htm)
+    - [Official Documentation & Codebook- First
+      Day](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DR1TOT_L.htm)
+    - [Official Documentation & Codebook- Second
+      Day](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DR2TOT_L.htm)
 3.  **Dietary Interview Technical Support File - Food Codes**
-    - [Official Documentatio & Codebook](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DRXFCD_L.htm)
+    - [Official
+      Documentation](https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFiles/DRXFCD_L.htm)
 
-### OUTPUT
+#### OUTPUT
 
 - **NHANES_2021_2023_diet_adults.csv.bz2** - NHANES 2021-2023
   ingredient-level diet data, first and second recalls combined,
@@ -82,7 +86,8 @@ for (pkg in required) {
 
 To analyze 2021-2023 NHANES dietary data, we need to pull down the
 relevant files for our cycle of interest. An array of files from the
-2021-2023 NHANES cycle are available from the CDC [here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2021-2023),
+2021-2023 NHANES cycle are available from the CDC
+[here](https://wwwn.cdc.gov/nchs/nhanes/continuousnhanes/default.aspx?Cycle=2021-2023),
 but for our purposes, we will pull down several key files:
 
 1.  **Demographic Data** - We will use this data to filter the number of
@@ -109,20 +114,15 @@ diet_codes = read_xpt("https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2021/DataFil
 **Checkpoint**: How many participants (`SEQN`) are in our starting
 files?
 
-``` r
-message("2021-2023 demographic file, n = ", length(unique(demo_data$SEQN)),
-        "\n2021-2023 diet recall 1, n = ", length(unique(recall1$SEQN)))
-```
-
     ## 2021-2023 demographic file, n = 11933
     ## 2021-2023 diet recall 1, n = 6751
 
 ### Clean Column Names
 
-Many column names in our recall files are labelled with “DR1” or “DR2”
-which denote the recall they came from. Since we want to analyze both
-recalls, it makes sense to convert these labels so they are no longer
-specific to the recall and we can merge dataframes together (Ex:
+Many columns in these NHANES recall files are labelled with “DR1” or
+“DR2” which denote the recall they came from. Since we want to analyze
+both recalls, it makes sense to convert these labels so they are no
+longer specific to the recall and we can merge dataframes together (Ex:
 `DR1DBIH` and `DR2DBIH` turn into `DRXDBIH`). To make sure we still know
 which recall the data came from, we can create a new column specifying
 this information.
@@ -178,11 +178,11 @@ participants we will analyze.
 3.  Include participants who had dietary recalls that passed quality
     control (Specific by recall: `DR1DRSTZ`, `DR2DRSTZ`).
 
-    - 1, Reliable and met the minimum criteria
-    - 2, Not reliable or not met the minimum criteria
-    - 4, Reported consuming breast-milk  
-    - 5, Not done
-    - ., Missing
+- 1, Reliable and met the minimum criteria
+- 2, Not reliable or not met the minimum criteria
+- 4, Reported consuming breast-milk  
+- 5, Not done
+- ., Missing
 
 **Note**: This is not an exhaustive list of data filtering steps for
 24-hour recall data. Users may want to filter for specific populations
@@ -211,10 +211,6 @@ diet_data_filtered = recall_merge_clean %>%
 
 **Checkpoint**: How many participants (`SEQN`) remain after filtering?
 
-``` r
-message("Participants post-filtering, n = ", length(unique(diet_data_filtered$SEQN)))
-```
-
     ## Participants post-filtering, n = 4284
 
 ## Export Data Files
@@ -223,8 +219,9 @@ Given the number of entries, we will compress this file to reduce file
 size.
 
 ``` r
-vroom::vroom_write(diet_data_filtered, 'user_inputs/NHANES_2021_2023_diet_adults.csv.bz2')
+vroom::vroom_write(diet_data_filtered,
+                   'user_inputs/NHANES_2021_2023_diet_adults.csv.bz2', delim = ",")
 
 # Optional for users who want to keep the filtered demographic data
-#vroom::vroom_write(demo_adults, 'user_inputs/NHANES_2021_2023_demographics_adults.csv.bz2')
+#vroom::vroom_write(demo_adults, 'user_inputs/NHANES_2021_2023_demographics_adults.csv.bz2', , delim = ",")
 ```

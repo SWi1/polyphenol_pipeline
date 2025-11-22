@@ -8,7 +8,6 @@ output:
     toc: true
     number_sections: false
     df_print: kable
-    preserve_yaml: true
   html_document:
     toc: true
     toc_depth: 3
@@ -28,8 +27,8 @@ This script takes in NHANES dietary recalls (merged into a singular dataframe), 
 
 ### OUTPUTS
 
--   **Input_Disaggregated.csv.bz2**: Dietary data that has been disaggregated using FDD.
--   **Input_total_nutrients.csv**: Total daily kcal intakes for unique subject and recall combination.
+-   **Recall_Disaggregated.csv.bz2**: Dietary data that has been disaggregated using FDD.
+-   **Recall_total_nutrients.csv**: Total daily kcal intakes for unique subject and recall combination.
 
 ## SCRIPT
 
@@ -49,8 +48,8 @@ library(tidyverse); library(readxl)
 
 Load Example Dietary Data and FDA-FDD V3.6
 ```{r}
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Load User Dietary Data
 input_data = vroom::vroom(diet_input_file, show_col_types = FALSE) %>%
@@ -143,6 +142,6 @@ if (!dir.exists("outputs")) dir.create("outputs", recursive = TRUE)
 
 Write Files
 ```{r}
-vroom::vroom_write(merge, 'outputs/Input_Disaggregated.csv.bz2')
-vroom::vroom_write(input_total_nutrients, 'outputs/Input_total_nutrients.csv')
+vroom::vroom_write(merge, 'outputs/Recall_Disaggregated.csv.bz2', delim = ",")
+vroom::vroom_write(input_total_nutrients, 'outputs/Recall_total_nutrients.csv', delim = ",")
 ```

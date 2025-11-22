@@ -8,8 +8,6 @@ has_toc: true
 
 - [Calculate DII Foods and Food
   Components](#calculate-dii-foods-and-food-components)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPT](#script)
   - [Isolate FDD descriptions for each food
     group](#isolate-fdd-descriptions-for-each-food-group)
@@ -19,19 +17,21 @@ has_toc: true
 
 ## Calculate DII Foods and Food Components
 
-This script takes in your disaggregated and FooDB-linked descriptions to calculate intake of 7 specific food categories (onion, ginger, garlic, tea, pepper, turmeric, thyme/oregano).
+This script takes in your disaggregated and FooDB-linked descriptions to
+calculate intake of 7 specific food categories (onion, ginger, garlic,
+tea, pepper, turmeric, thyme/oregano).
 
-### INPUTS
+#### INPUTS
 
-- **Input_Disaggregated_mapped.csv.bz2** - Disaggregated dietary data,
+- **Recall_Disaggregated_mapped.csv.bz2** - Disaggregated dietary data,
   mapped to FooDB foods, From Step 2 of the polyphenol estimation
   pipeline
 - **FDA-FDD V3.1** - All of FDA FDD descriptions
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_DII_foods_by_recall.csv** - Intake of 7 DII food categories by
-  participant recall
+- **Recall_DII_foods_by_recall.csv** - Intake of 7 DII food categories
+  by participant recall
 
 ## SCRIPT
 
@@ -44,11 +44,11 @@ library(tidyverse); library(readxl)
 Load data
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Load Dietary data that has been disaggregated and connected to FooDB
-input_mapped = vroom::vroom('outputs/Input_Disaggregated_mapped.csv.bz2', 
+input_mapped = vroom::vroom('outputs/Recall_Disaggregated_mapped.csv.bz2', 
                             show_col_types = FALSE)
 
 # Load FDA-FDD 3.1
@@ -140,5 +140,5 @@ component_sums = input_mapped %>%
 ### Export Food Intake Amounts for DII Calculation
 
 ``` r
-vroom::vroom_write(component_sums, 'outputs/Input_DII_foods_by_recall.csv')
+vroom::vroom_write(component_sums, 'outputs/Recall_DII_foods_by_recall.csv', delim = ",")
 ```

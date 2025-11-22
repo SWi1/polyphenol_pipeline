@@ -8,13 +8,7 @@ has_children: true
 
 # Polyphenol Estimation Pipeline
 
-Each of the pages in this sections shows you a pipeline-generated report. 
-
-## Pipeline Steps
-
-The polyphenol estimation pipeline takes either ASA24 Items Files or NHANES "Individual Foods" Recall Files. Based on the input, STEP 1 will differ but STEPS 2 - 6 are the same.
-
-For simplicity, STEPS 2 - 6 in this tutorial show the output from the demo ASA24 data. The report for STEP 2 shows summary information about the number of unmapped foods, which will vary between datasets.
+The polyphenol estimation pipeline takes either ASA24 Items Files or NHANES "Individual Foods" Recall Files. Based on the data type, STEP 1 will differ but STEPS 2 - 6 are the same. For simplicity, STEPS 2 - 6 in this tutorial show the output from the demo ASA24 data. The report for STEP 2 shows summary information about the number of unmapped foods, which will vary between datasets.
 
 ### Steps Specific to ASA24
 1. STEP1_ASA24_FDD_Disaggregation.Rmd
@@ -37,52 +31,34 @@ For simplicity, STEPS 2 - 6 in this tutorial show the output from the demo ASA24
 6. STEP3d_Polyphenol_Summary_Food_Contributors.Rmd
     - Examines food contributors to total polyphenol intake.
 
-## Expected Outputs
+## Outputs
 
 ### Mapping
-Our mapping output files are large feature-rich datasets, which we have  compressed.
-- Input_Disaggregated.csv.bz2
+Our mapping output files are large feature-rich datasets, which we have compressed.
+- Recall_Disaggregated.csv.bz2
     - Food codes are shown with their underlying ingredients and newly calculated gram intakes
-- Input_Disaggregated_mapped.csv.bz2
+- Recall_Disaggregated_mapped.csv.bz2
     - Food codes are shown with their underlying ingredients and newly calculated gram intakes, and FooDB food name equivalent (no content)
-- Input_FooDB_polyphenol_content.csv.bz2
+- Recall_FooDB_polyphenol_content.csv.bz2
     - Food codes are shown with their underlying ingredients and newly calculated gram intakes, and FooDB food names and polyphenol content
 
 ### Intake Summaries
-<details>
-<summary>Total Polyphenol Intake Files</summary>
-  <ul>
-  <li>Input_total_nutrients.csv</li>
-      - Nutrient totals are provided by recall for each participant
-  <li>Input_FooDB_polyphenol_content_total_by_recall.csv</li>
-      - polyphenol total intakes by recall for each participant
-  <li>Input_FooDB_polyphenol_content_total_by_subject.csv</li>
-      - polyphenol total intakes for each participant
-  <li>Input_FooDB_polyphenol_food_contributors.csv</li>
-      - total polyphenol and intake averages for each food, as well as food frequencies within the input diet data.
-  </ul>
-</details>
 
-<details>
-<summary>Class Polyphenol Intake Files</summary>
-  <ul>
-  <li>Input_FooDB_polyphenol_content_class_by_recall.csv</li>
-      - polyphenol class intakes by recall for each participant
-  <li>Input_FooDB_polyphenol_content_class_by_subject.csv</li>
-      - polyphenol class intakes for each participant, provided in wide format (classes as rows)
-  <li>Input_FooDB_polyphenol_content_class_by_subject_wide.csv</li>
-      - polyphenol class intakes for each participant, provided in wide format (classes as columns)
-  </ul>
-</details>
+#### Total 
+- Recall_total_nutrients.csv
+- summary_total_intake_by_recall.csv
+- summary_total_intake_by_subject.csv
+- summary_total_polyphenol_food_contributors.csv
 
-<details>
-<summary>Compound Polyphenol Intake Files</summary>
-  <ul>
-   <li>Input_FooDB_polyphenol_content_compound_by_recall.csv</li>
-      - polyphenol compound intakes by recall for each participant
-   <li>Input_FooDB_polyphenol_content_compound_by_subject.csv</li>
-      - polyphenol compound intakes for each participant, provided in wide format (compounds as rows)
-   <li>Input_FooDB_polyphenol_content_compound_by_subject_wide.csv</li>
-      - polyphenol compound intakes for each participant, provided in wide format (compounds as columns)
-  </ul>
-</details>
+### Class
+- summary_class_intake_by_recall.csv
+- summary_class_intake_by_subject_wide.csv
+- summary_class_intake_by_subject.csv
+
+### Compound
+- summary_compound_intake_by_recall.csv
+- summary_compound_intake_by_subject_wide.csv
+- summary_compound_intake_by_subject.csv
+
+
+

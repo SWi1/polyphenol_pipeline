@@ -16,7 +16,7 @@ install_if_missing =  function(pkgs) {
 # rmarkdown::render, run scripts and render html or md reports for a given RMD
 # ------------------------------------------------------------
 # triggers html yaml components
-run_create_html_report = function(file) {
+run_create_html_report = function(file, diet_input_file) {
   rmarkdown::render(
     file,
     output_format = "html_document",
@@ -28,7 +28,7 @@ run_create_html_report = function(file) {
 }
 
 # Triggers md yaml components
-run_create_md_report = function(file) {
+run_create_md_report = function(file, diet_input_file) {
   rmarkdown::render(
     file,
     output_format = "md_document",

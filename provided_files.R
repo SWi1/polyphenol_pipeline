@@ -1,14 +1,10 @@
 # ==============================
-# INPUT file paths for
+# PROVIDED file paths for
 # Polyphenol Estimation Pipeline
+# DII Calculation
 # Built by: Stephanie Wilson
 # Date: November 2025
 # ==============================
-
-# USER INPUT REQUIRED===========
-# ASA24 Data, standard NCI export Items file format OR
-# NHANES Dietary Data, Cleaned as Recommended in 'Obtain_NHANES_Diet_Data.Rmd'
-diet_input_file = "user_inputs/VVKAJ_Items.csv"
 
 # PROVIDED FILES================
 # Unless moved, you do not have to change these

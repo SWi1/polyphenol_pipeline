@@ -6,53 +6,39 @@ nav_order: 1
 
 # Polyphenol Estimation Pipeline
 
-This start guide shows you how to estimate polyphenol intake using the FooDB database from ASA24 or NHANES diet recall data. The guide also covers how to calculate the dietary inflammatory index[^1] from ASA24 or NHANES diet recall data.
+This start guide shows you how to estimate polyphenol intake using the FooDB database from ASA24 or NHANES diet recall data. The guide also covers how to calculate the dietary inflammatory index[^1] on ASA24 or NHANES diet recall data. Example ASA24 data, borrowed from the DietDiveR Repository[^2], is provided for you to test. We encourage you to check out this file to better understand the input data required for the pipeline.
 
-Example ASA24 data, borrowed from the DietDiveR Repository[^2], is provided for you to test. We encourage you to check out this file to better understand the input data required for the pipeline
-
-## Get started 
-### 1. Download the entire repository, using the terminal or downloading directly [here](https://github.com/SWi1/polyphenol_pipeline/archive/refs/heads/main.zip). 
+### 1. Download the entire repository directly [here](https://github.com/SWi1/polyphenol_pipeline/archive/refs/heads/main.zip) then unzip the folder. 
 The repository contains files and scripts used in the tutorial.
 
-``` 
-# bash
-git clone https://github.com/username/repo.git
-```
+###  2. Open 'run_pipeline.R' in RStudio.
+![Screenshot of run_pipeline.R script](workflow_images/run_pipeline_screenshot.png)
 
-###  2. In RStudio, create and save a new R file into the downloaded repository folder. 
-Don't save it in any subdirectories.
+### 3. Update `diet_input_file` path if not using the demo ASA24 data.
+![Screenshot of where to update file path.](workflow_images/update_diet_path.png)
 
-### 3. Set working directory to the repository folder.
-
-### 4. In your R script, copy and run the code below to load `estimate_polyphenols` and `calculate_DII` functions.
-
-``` r
-# Polyphenol Estimation Pipeline
-source('functions/estimate_polyphenols.R')
-
-# DII Calculation Pipeline
-source('functions/calculate_DII.R')
-```
-### 5. Copy and run the R code below to run the polyphenol estimation pipeline.
+### 4. Run the script.
 We are specifying that we are running ASA24 data and would like html reports from each pipeline step.
 
-``` r
-estimate_polyphenols(data = "ASA24", output = "html") 
-```
+### 5. Check out the resulting files in your output directory!
+You can see what was run in each script in the reports folder. Find a list of expected outputs below:
+- [Polyphenol Estimation Pipeline Outputs](https://swi1.github.io/polyphenol_pipeline/webpages/polyphenol_estimation_pipeline.html#outputs)
+- [DII Calculation Outputs](https://swi1.github.io/polyphenol_pipeline/webpages/DII_calculation.html#outputs)
 
-**Test NHANES data instead:**  
-`estimate_polyphenols` can also be run on NHANES data. To generate NHANES data to test, you can follow the instructions in ["Preparing - NHANES diet recalls"](https://swi1.github.io/polyphenol_pipeline/webpages/preparing_diet_data_NHANES.html#prepare-nhanes-diet-recall-data). After you've finished, you must update `diet_input_file` in `specify_inputs.R` with your NHANES output. Once those are complete, you can copy and run the following:
 
-``` r
-estimate_polyphenols(data = "NHANES", output = "html") 
-```
+<details>
+<summary>See What's in Each Script</summary>
+  <ul>
+  For every script that was run, a report was generated in the reports folder. Check out the report for Step 2 of the polyphenol estimation pipeline which will tell you which foods did not map to FooDB for estimation of poylphenol content.  
+  This tutorial actually shows you what the reports look like under "Polyphenol Estimation Pipeline" and "DII Calculation"!
+  </ul>
+</details>
 
-### 6. Copy and run the R code below to calculate the Dietary Inflammatory Index.
-The same function can be run on ASA24 and NHANES data. You just need to specify output as "html" or "md".
-
-``` r
-calculate_DII(output = "html")
-```
+### Want to test NHANES data instead?
+`estimate_polyphenols` can also be run on NHANES data. To generate NHANES data, follow the instructions in ["Preparing Diet Data - NHANES diet recalls"](https://swi1.github.io/polyphenol_pipeline/webpages/preparing_diet_data_NHANES.html#prepare-nhanes-diet-recall-data). When you've finished: 
+1. Come back to run_pipeline.R and update `diet_input_file` with the NHANES output. 
+2. In `estimate_polyphenols()`, change type to "NHANES"
+2. Run the script. 
 
 [^1]: [Shivapppa et al. 2013. Designing and developing a literature-derived, population-based dietary inflammatory index](10.1017/S1368980013002115)
 [^2]: [DietDiveR Repo](https://computational-nutrition-lab.github.io/DietDiveR/).

@@ -8,8 +8,6 @@ has_toc: true
 
 - [Calculate 42-component Dietary Inflammatory
   Index](#calculate-42-component-dietary-inflammatory-index)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPT](#script)
   - [Merge calculations with ASA24 Items
     file](#merge-calculations-with-asa24-items-file)
@@ -29,28 +27,28 @@ include 14 additional components not included in the original
 relies upon previous calculations of eugenol intake, 6 polyphenol
 subclasses, and 7 additional food groups (10 possible).
 
-- Original dietaryindex Calculation,
+- Original Calculation,
   [DII_ASA24.R](https://github.com/jamesjiadazhan/dietaryindex/blob/main/R/DII_ASA24.R)
 - New Components Added to 28 component DII calculation:
   - Compounds: EUGENOL, ISOFLAVONES, FLA3OL, FLAVONES, ANTHOC,
     FLAVONONES, FLAVONOLS
   - Foods: GARLIC, GINGER, ONION, PEPPER, TEA, TURMERIC, THYME
 
-### INPUTS
+#### INPUTS
 
-- **Input_total_nutrients.csv**: Total nutrient intakes for unique
+- **Recall_total_nutrients.csv**: Total nutrient intakes for unique
   participant and recall combination. Generated from step 1 of the
   polyphenol estimation pipeline.
-- **Input_FooDB_DII_eugenol_by_recall.csv**: Sum eugenol intake for each
-  participant recall
-- **Input_FooDB_DII_subclass_by_recall.csv**: Sum of 6 DII polyphenol
+- **Recall_FooDB_DII_eugenol_by_recall.csv**: Sum eugenol intake for
+  each participant recall
+- **Recall_FooDB_DII_subclass_by_recall.csv**: Sum of 6 DII polyphenol
   subclass intakes for each participant recall
-- **Input_DII_foods_by_recall.csv** - Intake of 7 DII 2014 food
+- **Recall_DII_foods_by_recall.csv** - Intake of 7 DII 2014 food
   categories by participant recall
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_DII_final_scores_by_recall.csv** - Total DII scores and 42
+- **summary_DII_final_scores_by_recall.csv** - Total DII scores and 42
   individual component scores
 
 ## SCRIPT
@@ -65,14 +63,14 @@ Load dietary test data
 
 ``` r
 # Load dietary data
-total_nut = vroom::vroom('outputs/Input_total_nutrients.csv', show_col_types = FALSE) 
+total_nut = vroom::vroom('outputs/Recall_total_nutrients.csv', show_col_types = FALSE) 
 
 # Load DII calculation files
-eugenol = vroom::vroom('outputs/Input_FooDB_DII_eugenol_by_recall.csv',
+eugenol = vroom::vroom('outputs/Recall_DII_eugenol_by_recall.csv',
                        show_col_types = FALSE) # eugenol intake
-subclass = vroom::vroom('outputs/Input_FooDB_DII_subclass_by_recall.csv', 
+subclass = vroom::vroom('outputs/Recall_DII_subclass_by_recall.csv', 
                         show_col_types = FALSE) # polyphenol subclass intakes
-DII_foods = vroom::vroom('outputs/Input_DII_foods_by_recall.csv', 
+DII_foods = vroom::vroom('outputs/Recall_DII_foods_by_recall.csv', 
                          show_col_types = FALSE) # food intakes
 ```
 
@@ -312,8 +310,8 @@ DII_scores = COHORT2 %>%
             EUGENOL = sum(EUGENOL, na.rm = TRUE))
 ```
 
-    ## `summarise()` has grouped output by 'subject'.
-    ## You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'subject'. You can
+    ## override using the `.groups` argument.
 
 ``` r
             # Can add with future updats
@@ -325,5 +323,5 @@ DII_scores = COHORT2 %>%
 ### Export DII total and component scores for downstream use
 
 ``` r
-vroom::vroom_write(DII_scores, "outputs/Input_ASA_DII_final_scores_by_recall.csv")
+vroom::vroom_write(DII_scores, "outputs/summary_DII_final_scores_by_recall.csv", delim = ",")
 ```

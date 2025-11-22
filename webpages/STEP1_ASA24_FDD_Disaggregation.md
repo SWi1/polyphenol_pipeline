@@ -7,8 +7,6 @@ has_toc: true
 ---
 
 - [Disaggregation of ASA24 Foods](#disaggregation-of-asa24-foods)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPT](#script)
   - [Dietary Data Filtering](#dietary-data-filtering)
   - [Sum Recall to get total kcal and Additional Nutrient
@@ -29,7 +27,7 @@ also calculates total caloric intake & other nutrients for each
 participant recall so polyphenol intakes can be standardized to caloric
 intake later on.
 
-### INPUTS
+#### INPUTS
 
 - **Your Dietary Data** - This script does not provide filtering for
   portion or nutrient outliers. These may be performed in advance. The
@@ -40,11 +38,11 @@ intake later on.
 - **FDA_FDD_All_Records_v_3.1.xlsx** - FDD FoodCodes to Ingredients and
   Ingredient Percentages
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_Disaggregated.csv.bz2**: Dietary data that has been
+- **Recall_Disaggregated.csv.bz2**: Dietary data that has been
   disaggregated using FDD.
-- **Input_total_nutrients.csv**: Total daily kcal intakes for unique
+- **Recall_total_nutrients.csv**: Total daily kcal intakes for unique
   subject and recall combination.
 
 ## SCRIPT
@@ -57,8 +55,8 @@ library(tidyverse); library(readxl)
 Load Example Dietary Data and FDA-FDD V3.6
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Load User Dietary Data
 input_data = vroom::vroom(diet_input_file, show_col_types = FALSE) %>%
@@ -103,8 +101,8 @@ input_total_nutrients = input_data_clean %>%
   ungroup()
 ```
 
-    ## `summarise()` has grouped output by 'subject'.
-    ## You can override using the `.groups` argument.
+    ## `summarise()` has grouped output by 'subject'. You can
+    ## override using the `.groups` argument.
 
 ### Minimize the number of columns to the essential data
 
@@ -170,6 +168,6 @@ if (!dir.exists("outputs")) dir.create("outputs", recursive = TRUE)
 Write Files
 
 ``` r
-vroom::vroom_write(merge, 'outputs/Input_Disaggregated.csv.bz2')
-vroom::vroom_write(input_total_nutrients, 'outputs/Input_total_nutrients.csv')
+vroom::vroom_write(merge, 'outputs/Recall_Disaggregated.csv.bz2')
+vroom::vroom_write(input_total_nutrients, 'outputs/Recall_total_nutrients.csv')
 ```

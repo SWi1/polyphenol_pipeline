@@ -8,8 +8,6 @@ has_toc: true
 
 - [Calculate DII Polyphenol
   Subclasses](#calculate-dii-polyphenol-subclasses)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPT](#script)
   - [Filter in relevant DII subclass
     polyphenols](#filter-in-relevant-dii-subclass-polyphenols)
@@ -25,17 +23,17 @@ subclasses (flavan-3-ols, Flavones, Flavonols, Flavonones,
 Anthocyanidins, Isoflavones), and calculates the total intake of these
 subclasses per participant recall.
 
-### INPUTS
+#### INPUTS
 
-- **Input_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
+- **Recall_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
   data, mapped to FooDB polyphenol content, at the compound-level
 - **FooDB_DII_polyphenol_list.csv** - Polyphenols under the six
   polyphenol subclasses required for DII-2014, Provided File
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_FooDB_DII_subclass_by_recall.csv**: Sum DII polyphenol
-  subclass content for each participant recall
+- **Recall_DII_subclass_by_recall.csv**: Sum DII polyphenol subclass
+  content for each participant recall
 
 ## SCRIPT
 
@@ -48,11 +46,11 @@ library(tidyverse)
 Load data
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Load dietary data mapped to polyphenol content
-input_polyphenol_content = vroom::vroom('outputs/Input_FooDB_polyphenol_content.csv.bz2',
+input_polyphenol_content = vroom::vroom('outputs/Recall_FooDB_polyphenol_content.csv.bz2',
                                         show_col_types = FALSE)
 
 # Eugenol Content in FooDB
@@ -101,5 +99,5 @@ subclass_intakes = input_polyphenol_content_filtered %>%
 ### Export Polyphenol Subclass Intakes for DII Calculation
 
 ``` r
-vroom::vroom_write(subclass_intakes, 'outputs/Input_FooDB_DII_subclass_by_recall.csv')
+vroom::vroom_write(subclass_intakes, 'outputs/Recall_DII_subclass_by_recall.csv', delim = ",")
 ```

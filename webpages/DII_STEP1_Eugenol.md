@@ -7,8 +7,6 @@ has_toc: true
 ---
 
 - [Calculate Eugenol Intake](#calculate-eugenol-intake)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPT](#script)
   - [Merge FooDB-matched Ingredient Codes to FooDB Eugenol Content
     File.](#merge-foodb-matched-ingredient-codes-to-foodb-eugenol-content-file.)
@@ -20,18 +18,18 @@ has_toc: true
 This script takes in your disaggregated dietary data and FooDB-linked
 descriptions to calculate eugenol intake per recall and subject.
 
-### INPUTS
+#### INPUTS
 
-- **Input_Disaggregated_mapped.csv.bz2** - Disaggregated dietary data,
+- **Recall_Disaggregated_mapped.csv.bz2** - Disaggregated dietary data,
   mapped to FooDB foods, From Step 2 of the polyphenol estimation
   pipeline
 - **FooDB_Eugenol_Content_Final.csv** - Eugenol Content for foods in
   FooDB, Provided File
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_FooDB_DII_eugenol_by_recall.csv**: Sum eugenol content for
-  each participant recall
+- **Recall_DII_eugenol_by_recall.csv**: Sum eugenol content for each
+  participant recall
 
 ## SCRIPT
 
@@ -44,11 +42,11 @@ library(tidyverse)
 Load data
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Load Dietary data that has been disaggregated and connected to FooDB
-input_mapped = vroom::vroom('outputs/Input_Disaggregated_mapped.csv.bz2', 
+input_mapped = vroom::vroom('outputs/Recall_Disaggregated_mapped.csv.bz2', 
                             show_col_types = FALSE)
 
 # Eugenol Content in FooDB
@@ -83,5 +81,5 @@ input_mapped_content = input_mapped %>%
 ### Export Eugenol Intake File for DII Calculation
 
 ``` r
-vroom::vroom_write(input_mapped_content, 'outputs/Input_FooDB_DII_eugenol_by_recall.csv')
+vroom::vroom_write(input_mapped_content, 'outputs/Recall_DII_eugenol_by_recall.csv', delim = ",")
 ```

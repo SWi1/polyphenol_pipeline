@@ -8,7 +8,6 @@ output:
     toc: true
     number_sections: false
     df_print: kable
-    preserve_yaml: true
   html_document:
     toc: true
     toc_depth: 3
@@ -22,14 +21,14 @@ output:
 This script calculates class polyphenol intake (mg, mg/1000kcal) for provided dietary data.
 
 ### INPUTS
-- **Input_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary data, mapped to FooDB polyphenol content, at the compound-level
-- **Input_total_nutrients.csv** - total daily nutrient data to go with dietary data.
+- **Recall_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary data, mapped to FooDB polyphenol content, at the compound-level
+- **Recall_total_nutrients.csv** - total daily nutrient data to go with dietary data.
 - **FooDB_polyphenol_classtax_3072.csv** - class taxonomy is derived from FooDB which uses ClassyFire, an automated chemical taxonomic classification application based on chemical structure
 
 ### OUTPUTS
-- **Input_FooDB_polyphenol_content_class_by_recall.csv**, polyphenol class intakes by recall for each participant
-- **Input_FooDB_polyphenol_content_class_by_subject.csv**, polyphenol class intakes for each participant, provided in wide format (classes as rows)
-- **Input_FooDB_polyphenol_content_class_by_subject_wide.csv**, polyphenol class intakes for each participant, provided in wide format (classes as columns)
+- **summary_class_intake_by_recall.csv**, polyphenol class intakes by recall for each participant
+- **summary_class_intake_by_subject.csv**, polyphenol class intakes for each participant, provided in wide format (classes as rows)
+- **summary_class_intake_by_subject_wide.csv**, polyphenol class intakes for each participant, provided in wide format (classes as columns)
 
 ## SCRIPTS
 
@@ -47,13 +46,13 @@ library(tidyverse)
 ```
 
 ```{r}
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 #Content and kcal data
-input_polyphenol_content = vroom::vroom('outputs/Input_FooDB_polyphenol_content.csv.bz2',
+input_polyphenol_content = vroom::vroom('outputs/Recall_FooDB_polyphenol_content.csv.bz2',
                                         show_col_types = FALSE)
-input_kcal = vroom::vroom('outputs/Input_total_nutrients.csv', show_col_types = FALSE) %>%
+input_kcal = vroom::vroom('outputs/Recall_total_nutrients.csv', show_col_types = FALSE) %>%
   # Ensure consistent KCAL naming whether ASA24 or NHANES
   rename_with(~ "Total_KCAL", .cols = any_of(c("Total_KCAL", # Specific to ASA24
                                                "Total_DRXIKCAL"))) %>%  # Specific to NHANES
@@ -90,7 +89,7 @@ class_intakes_recall = input_polyphenol_kcal%>%
   #Standardize Intakes to caloric intake
   mutate(class_intake_mg1000kcal = class_intake_mg/(Total_KCAL/1000))
 
-vroom::vroom_write(class_intakes_recall, "outputs/Input_FooDB_polyphenol_content_class_by_recall.csv")
+vroom::vroom_write(class_intakes_recall, "outputs/summary_class_intake_by_recall.csv", delim = ",")
 ```
 
 ### Daily Class Intakes by SUBJECT
@@ -120,7 +119,7 @@ class_intakes_subject = class_intakes_recall %>%
   mutate(class_intake_mg1000kcal = Avg_class_intake_mg/(avg_Total_KCAL/1000)) 
 
 vroom::vroom_write(class_intakes_subject,
-                   "outputs/Input_FooDB_polyphenol_content_class_by_subject.csv")
+                   "outputs/summary_class_intake_by_subject.csv", delim = ",")
 ```
 
 Available for users who prefer wide format
@@ -132,6 +131,6 @@ class_intakes_subject_wide = class_intakes_subject %>%
               values_from = class_intake_mg1000kcal, values_fill = 0)
 
 vroom::vroom_write(class_intakes_subject_wide,
-                   "outputs/Input_FooDB_polyphenol_content_class_by_subject_wide.csv")
+                   "outputs/summary_class_intake_by_subject_wide.csv", delim = ",")
 ```
 

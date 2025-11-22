@@ -7,14 +7,12 @@ has_toc: true
 ---
 
 - [Map Disaggregated Foods to FooDB](#map-disaggregated-foods-to-foodb)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPTS](#scripts)
   - [Connect Disaggregated ASA to FooDB through key
     link.](#connect-disaggregated-asa-to-foodb-through-key-link.)
   - [Merge FooDB-matched Ingredient Codes to FooDB Polyphenol Content
     File.](#merge-foodb-matched-ingredient-codes-to-foodb-polyphenol-content-file.)
-- [Review of Unmapped Foods](#review-of-unmapped-foods)
+- [Review Unmapped Foods](#review-unmapped-foods)
   - [Find foods and food components that did not map to
     FooDB:](#find-foods-and-food-components-that-did-not-map-to-foodb)
   - [How many recalls had at least one food
@@ -27,9 +25,9 @@ has_toc: true
 This script takes your disaggregated foods (from ASA24 or NHANES) and
 maps them to FooDB to derive polyphenol content.
 
-### INPUTS
+#### INPUTS
 
-- **Input_Disaggregated.csv.bz2**: Input dietary data that has been
+- **Recall_Disaggregated.csv.bz2**: Input dietary data that has been
   disaggregated using FDD.
 - **FDA_FooDB_Mapping_Nov_2025.csv**: FDD to FooDB matches.  
 - **FooDB_polyphenol_content_with_dbPUPsubstrates_Aug25.csv.bz2**:
@@ -40,11 +38,11 @@ maps them to FooDB to derive polyphenol content.
   FooDB or present but not quantified have had their concentrations
   adjusted.
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_Disaggregated_mapped.csv.bz2**; Dissagregated dietary data,
+- **Recall_Disaggregated_mapped.csv.bz2**; Dissagregated dietary data,
   mapped to FooDB foods
-- **Input_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
+- **Recall_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
   data, mapped to FooDB foods and polyphenol content
 
 ## SCRIPTS
@@ -57,10 +55,10 @@ library(tidyverse)
 Load data
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
-input = vroom::vroom('outputs/Input_Disaggregated.csv.bz2', 
+input = vroom::vroom('outputs/Recall_Disaggregated.csv.bz2', 
                      show_col_types = FALSE) %>%
   select(-wweia_food_description)
 
@@ -86,7 +84,7 @@ input_mapped = input %>%
   # Connect to foodb names
   left_join(mapping, by = c("fdd_ingredient"))
 
-vroom::vroom_write(input_mapped, 'outputs/Input_Disaggregated_mapped.csv.bz2')
+vroom::vroom_write(input_mapped, 'outputs/Recall_Disaggregated_mapped.csv.bz2', delim = ",")
 ```
 
 ### Merge FooDB-matched Ingredient Codes to FooDB Polyphenol Content File.
@@ -117,10 +115,10 @@ Export polyphenol content file. Compress as this is the largest file
 that we generate.
 
 ``` r
-vroom::vroom_write(input_mapped_content, 'outputs/Input_FooDB_polyphenol_content.csv.bz2')
+vroom::vroom_write(input_mapped_content, 'outputs/Recall_FooDB_polyphenol_content.csv.bz2', delim = ",")
 ```
 
-## Review of Unmapped Foods
+## Review Unmapped Foods
 
 ### Find foods and food components that did not map to FooDB:
 
@@ -135,4 +133,4 @@ vroom::vroom_write(input_mapped_content, 'outputs/Input_FooDB_polyphenol_content
 
 ### Distribution of Unmapped Foods Percentages by Recall
 
-![](/Users/smgwilso/Desktop/Version_2/reports/STEP2_FDD_FooDB_Content_Mapping_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![Distribution of Unmapped Foods](/webpages/STEP2_FDD_FooDB_Content_Mapping_files/figure-gfm/unnamed-chunk-9-1.png)

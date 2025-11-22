@@ -24,13 +24,9 @@ What is still missing?
 4. **DII_STEP4_DII_Calculation.Rmd** - This scripts pulls output from previous scripts to add 14 more components to the DII calculation. An output file is generated for users to apply to other analyses.
 
 ### Outputs
-1. DII_STEP1_Eugenol.Rmd
-    -  **Input_FooDB_DII_eugenol_by_recall.csv**: Sum eugenol content for each participant recall
-2. DII_STEP2_Polyphenol_Subclass.Rmd
-    - **Input_FooDB_DII_subclass_by_recall.csv**: Sum DII polyphenol subclass content for each participant recall
-3. DII_STEP3_Food.Rmd
-    - **Input_DII_foods_by_recall.csv** - Intake of 7 DII food categories by participant recall
-4. DII_STEP4_DII_Calculation.Rmd
-    - **Input_DII_final_scores_by_recall.csv** - Total DII scores and 42 individual component scores
+- Recall_DII_eugenol_by_recall.csv
+- Recall_DII_foods_by_recall.csv
+- Recall_DII_subclass_by_recall.csv
+- summary_DII_final_scores_by_recall.csv
 
 [^1]: [Shivappa et al. 2014. Designing and developing a literature-derived, population-based dietary inflammatory index](https://doi.org/10.1017/s1368980013002115)

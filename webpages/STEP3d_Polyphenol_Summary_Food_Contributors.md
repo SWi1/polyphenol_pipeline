@@ -8,8 +8,6 @@ has_toc: true
 
 - [Food Contributors to Total Polyphenol
   Intake](#food-contributors-to-total-polyphenol-intake)
-  - [INPUTS](#inputs)
-  - [OUTPUTS](#outputs)
 - [SCRIPTS](#scripts)
   - [Food Consumption Counts](#food-consumption-counts)
   - [Total daily Polyphenol Intake Numbers BY
@@ -23,18 +21,18 @@ has_toc: true
 
 This script examines food contributors to total polyphenol intake.
 
-### INPUTS
+#### INPUTS
 
-- **Input_Disaggregated_mapped.csv.bz2**; Dissagregated dietary data,
+- **Recall_Disaggregated_mapped.csv.bz2**; Dissagregated dietary data,
   mapped to FooDB foods
-- **Input_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
+- **Recall_FooDB_polyphenol_content.csv.bz2**: Disaggregated dietary
   data, mapped to FooDB foods and polyphenol content
-- **Input_total_nutrients.csv** - total daily nutrient data to go with
+- **Recall_total_nutrients.csv** - total daily nutrient data to go with
   dietary data.
 
-### OUTPUTS
+#### OUTPUTS
 
-- **Input_FooDB_polyphenol_food_contributors.csv**
+- **summary_total_polyphenol_food_contributors.csv**
 
 ## SCRIPTS
 
@@ -44,17 +42,17 @@ library(tidyverse)
 ```
 
 ``` r
-# Load user-defined input paths
-source("specify_inputs.R")
+# Load provided file paths
+source("provided_files.R")
 
 # Foods Mapped
-input_mappings = vroom::vroom('outputs/Input_Disaggregated_mapped.csv.bz2',
+input_mappings = vroom::vroom('outputs/Recall_Disaggregated_mapped.csv.bz2',
                               show_col_types = FALSE)
 
 # Foods Mapped with content
-input_polyphenol_content = vroom::vroom('outputs/Input_FooDB_polyphenol_content.csv.bz2',
+input_polyphenol_content = vroom::vroom('outputs/Recall_FooDB_polyphenol_content.csv.bz2',
                                         show_col_types = FALSE)
-input_kcal = vroom::vroom('outputs/Input_total_nutrients.csv', show_col_types = FALSE) %>%
+input_kcal = vroom::vroom('outputs/Recall_total_nutrients.csv', show_col_types = FALSE) %>%
   # Ensure consistent KCAL naming whether ASA24 or NHANES
   rename_with(~ "Total_KCAL", .cols = any_of(c("Total_KCAL", # Specific to ASA24
                                                "Total_DRXIKCAL"))) %>%  # Specific to NHANES
@@ -144,5 +142,5 @@ content_by_food = content_by_subject_food %>%
   arrange(desc(food_pp_average_mg1000kcal), desc(n_subjects))
 
 # Export food contributors file 
-vroom::vroom_write(content_by_food, 'outputs/Input_FooDB_polyphenol_food_contributors.csv')
+vroom::vroom_write(content_by_food, 'outputs/summary_total_polyphenol_food_contributors.csv', delim = ",")
 ```
