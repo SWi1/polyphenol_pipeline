@@ -20,8 +20,8 @@ An example ASA24 Items File is provided from [DietDiveR](https://github.com/comp
   - The pipeline will automatically include people with more than one recall and complete (`RecallStatus`==5).
   - Any additional dietary quality control checks should be done before running the pipeline. The NIH provides [ASA24 quality control guidelines](https://epi.grants.cancer.gov/asa24/resources/cleaning.html), which covers missing data, text entries, outlier review, and duplicate entries.
 
-### 3. Update `diet_input_file` path in specify_inputs.R to your own ASA24 file.
+### 3. Come back to run_pipeline.R and update `diet_input_file` with your own ASA24 file path.
   - The pipeline will run the example ASA24 file **unless** you change the input data.
 
-### 4. Run the polyphenol estimation pipeline for ASA24 data. 
+### 4. Run the polyphenol estimation pipeline for your ASA24 data. 
   - Refer to [Start Guide](https://swi1.github.io/polyphenol_pipeline/#polyphenol-estimation-pipeline) for instructions to run the pipeline.
