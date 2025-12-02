@@ -7,13 +7,15 @@ has_children: true
 ---
 
 ## Calculating the Dietary Inflammatory Index
-The dietary inflammatory index (DII) is a 45-component index created by [Shivappa et al. (2014)](https://doi.org/10.1017/s1368980013002115) that reflects the inflammatory potential of the diet. Our script adds 14-components to the 28-component calculation detailed in [DII_ASA24.R](https://github.com/jamesjiadazhan/dietaryindex/blob/main/R/DII_ASA24.R) from the [dietaryindex](https://doi.org/10.1016/j.cdnut.2024.102755) package. In total, 42 of the 45-components can now be calculated from ASA24 and NHANES data.
+The dietary inflammatory index (DII) is a 45-component index created by [Shivappa et al. (2014)](https://doi.org/10.1017/s1368980013002115) that reflects the inflammatory potential of the diet. The theoretical range for the DII is -8.87 (strongly anti-inflammatory) to 7.98 (strongly pro-inflammatory).
+
+Our script adds 14-components to the 28-component calculation detailed in [DII_ASA24.R](https://github.com/jamesjiadazhan/dietaryindex/blob/main/R/DII_ASA24.R) from the [dietaryindex](https://doi.org/10.1016/j.cdnut.2024.102755) package. In total, 42 of the 45-components can now be quickly calculated from ASA24 and NHANES data.
   
-New Components Addeded to 28 component DII calculation:
+New Components Added to 28 component DII calculation:
 - **Compounds**: Eugenol, isoflavones, flavan-3-ols, flavones, anthocyanidins, flavonones, flavonols
 - **Foods**: Garlic, ginger, onion, pepper (spice), tea, turmeric, thyme/oregano
 
-What is still missing?
+Missing Components
 - **Compounds** - Trans Fats. Obtaining trans fats requires an additional level of mapping to Food Data Central. We are looking to incorporate this component in a future version of this pipeline.
 - **Foods** - Saffron and Rosemary. These foods do not have WWEIA food codes and are not present in the [FDA's Food Disaggregation Database](https://pub-connect.foodsafetyrisk.org/fda-fdd/). Thus, they cannot be added at this time.
 

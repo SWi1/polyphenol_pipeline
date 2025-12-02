@@ -6,7 +6,7 @@ nav_order: 1
 
 # Polyphenol Estimation Pipeline
 
-This start guide shows you how to estimate polyphenol intake using the FooDB database from ASA24 or NHANES diet recall data. The guide also covers how to calculate the dietary inflammatory index[^1] on ASA24 or NHANES diet recall data. Example ASA24 data, borrowed from the DietDiveR Repository[^2], is provided for you to test. We encourage you to check out this file to better understand the input data required for the pipeline.
+This start guide shows you how to take your ASA24 or NHANES dietary data and estimate polyphenol intake using the [FooDB](https://foodb.ca/) and calculate the dietary inflammatory index[^1]. Example ASA24 data, borrowed from the DietDiveR Repository[^2], is provided for you to test. Check out [the example file here](https://github.com/SWi1/polyphenol_pipeline/blob/main/user_inputs/VVKAJ_Items.csv) to see the input structure required for the pipeline.
 
 ### 1. Download the entire repository directly [here](https://github.com/SWi1/polyphenol_pipeline/archive/refs/heads/main.zip) then unzip the folder. 
 The repository contains files and scripts used in the tutorial.
